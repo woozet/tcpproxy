@@ -4,6 +4,8 @@ const net = require('net');
 const loadFiles = require('./loadFiles');
 const config = loadFiles('./config');
 const portmap = config[0].json.portmap;
+const middleware = require('./lib/middleware');
+const compose = require('koa-compose');
 let mapInfo = new Map();
 let servers = new Map();
 let connectionCount = 0;
@@ -18,13 +20,23 @@ for (let key in portmap) {
 }
 
 function forwardProxy({host, port}) {
+    let middlewares = middleware();
+
+    middlewares.add();      // add argama middlewares
+
     return socket => {
-        new Promise((resolve, reject) => {
-            connectionCount++;
-            resolve();
-        }).then(() => {
+        socket.on('end', () => {
+            connectionCount--;
+            console.log('connection ended', connectionCount);
+        });
+        socket.on('error', err => {
+            socket.end();
+        });
+
+        middlewares.getCompositioned().call(this).then(() => {     // it is respond
             console.log('connection established', connectionCount);
 
+            // flow the data
             socket.on('data', msg => {
                 console.log('  ** START **');
                 console.log('<< From client to proxy ', msg.toString());
@@ -44,11 +56,6 @@ function forwardProxy({host, port}) {
                     serviceSocket.write(msg);
                 });
             });
-
-            socket.on('end', () => {
-                connectionCount--;
-                console.log('connection ended', connectionCount);
-            });    
         }).catch(() => {
             socket.end();
         });
