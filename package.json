@@ -1,0 +1,14 @@
+{
+  "name": "tcpproxy",
+  "version": "0.0.1",
+  "description": "TCP Proxy by PA",
+  "main": "app.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "author": "Platform Architecture",
+  "license": "ISC",
+  "dependencies": {
+    "js-yaml": "^3.6.1"
+  }
+}

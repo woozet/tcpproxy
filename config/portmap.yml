@@ -1,0 +1,37 @@
+portmap:
+    dummySB:
+        port: 6001
+        target:
+            host: '127.0.0.1'
+            port: 3000
+        middlewares:
+            iptables:
+                whiteList:
+                    - ::ffff:127.0.0.1/32
+                    - 127.0.0.1/32
+                    - 10.0.0.0/8                    # Private Network
+                    - 172.16.0.0/12                 # Private Network
+                    - 192.168.0.0/16                # Private Network
+                    - 172.18.176.72                 # 11st login dev server
+                    - 172.18.173.0/24               # 11st dev server
+                    - 172.18.174.0/24               # 11st dev server
+                    - 172.18.176.0/24               # 11st dev server
+                    - 124.66.184.4                  # SKP Global NAT Address
+                    - 124.66.184.5                  # SKP Global NAT Address
+                    - 124.66.181.142                # SKP Global NAT Address (Sindaebang, Wired)
+                    - 124.66.181.145                # SKP Global NAT Address (Sindaebang, Wireless)
+                    - 10.200.0.0/16                 # SKP OA Private IP
+                    - 10.202.0.0/16                 # SKP OA Private IP
+                    - 10.205.80.0/23                # SKP OA Private IP (Sindaebang, Wired, B1)
+                    - 10.205.82.0/23                # SKP OA Private IP (Sindaebang, Wired, 3F)
+                    - 10.205.84.0/23                # SKP OA Private IP (Sindaebang, Wired, 4F)
+                    - 10.205.86.0/23                # SKP OA Private IP (Sindaebang, Wired, 5F)
+                    - 10.205.88.0/23                # SKP OA Private IP (Sindaebang, Wired, 6F)
+                    - 10.205.90.0/23                # SKP OA Private IP (Sindaebang, Wired, 7F)
+                    - 10.205.92.0/23                # SKP OA Private IP (Sindaebang, Wired, 8F)
+                    - 10.205.64.0/20                # SKP OA Private IP (Sindaebang, Wireless)
+    dummySB2:
+        port: 6002
+        target:
+            host: '127.0.0.1'
+            port: 3002
